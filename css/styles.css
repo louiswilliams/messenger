@@ -1,0 +1,46 @@
+.pipeline .header {
+    display: block;   
+    height: 30px;   
+    padding-bottom: 12px;
+}
+.pipeline .header h1 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding-top: 5px;rgba(0, 0, 0, .40);
+}
+
+.pipeline .entry {
+    height: 71px;
+    padding-left: 12px;
+}
+
+.pipeline .entry .selected {
+    background-color: rgb(243, 243, 243);
+}
+
+.pipeline .entry .avatar {
+    padding-top: 10px;
+    float: left;
+    padding-right: 9px;
+}
+
+.pipeline .entry img {
+    border-radius: 25px;
+}
+
+.pipeline .entry .info {
+    float: left;
+    padding-top: 25px;
+}
+
+.pipeline .entry .info span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 1);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.4;
+}
