@@ -10,6 +10,9 @@
             "js": ["./js/jquery.min.js", "./js/hunter_script.js"]
         }
     ],
+    "background": {
+        "scripts": ["./js/background.js"]
+    },
     "permissions": [
         "https://messenger.com/"
     ],
