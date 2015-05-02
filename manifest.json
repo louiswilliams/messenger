@@ -3,6 +3,13 @@
     "name": "Messenger CRM",
     "description": "Facebook Messenger CRM",
     "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": ["https://www.messenger.com/*"],
+            "css": ["./css/hunter_style.css"],
+            "js": ["./js/jquery.min.js", "./js/hunter_script.js"]
+        }
+    ],
     "permissions": [
         "https://messenger.com/"
     ],
