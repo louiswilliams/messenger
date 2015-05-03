@@ -1,6 +1,7 @@
 var status = "null";
 var accessToken = "6b34fe24ac2ff8103f6fce1f0da2ef57";
 var url = "https://messenger.louiswilliams.org/user/" + accessToken;
+var activePipeline;
 
 var api = {
 	getPipelines: function(callback) {
@@ -12,6 +13,9 @@ var api = {
 	getPipeline: function(pipelineId, callback) {
 		$.get(url + "/pipeline/" + pipelineId, callback);
 	},
+    getStates: function(pipelineId, callback) {
+        $.get(url + "/pipeline/" + pipelineId + "/states", callback);
+    },
 	getState: function(stateId, callback) {
 		$.get(url + "/state/" + stateId, callback);
 	},
@@ -22,6 +26,7 @@ var api = {
 
 $(document).ready(function() {
 	injectInitialView();
+
 });
 
 $(document).on("click", "._4bl8._4bl7", function() {
@@ -59,11 +64,26 @@ function injectInitialView() {
           }, function() {
           }
         );
-        $(".pipeline.entry").click(function() {
-            $(".pipelines").children().css("background-color", "#ffffff");
-            $(".pipelines").children().removeClass("selected");
-            $(this).addClass("selected");
+
+        $(".pipeline.entry.container").click(function() {    
+            if (typeof(activePipeline) == "undefined" || activePipeline != $(this).data("index")) {
+                $(".pipeline.entry.container").removeClass("selected");
+                $(this).addClass("selected");
+                $(".pipeline.entry.container").next(".pipeline-dropdown").slideUp(250);
+
+                $(this).next(".pipeline-dropdown").slideDown(250);
+
+                activePipeline = $(this).data("index");
+            } else {
+                $(this).removeClass("selected");
+                $(this).next(".pipeline-dropdown").slideUp(250);
+
+                activePipeline = undefined;
+
+            }
+            $(".pipeline.entry.container").css("background-color", "#ffffff");
             $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
+
             // code to swap pipeline sidebar here
         });
 	})
@@ -74,9 +94,21 @@ function getPipelines(callback) {
 	var pipelineCode = "";
 	api.getPipelines(function (pipelines) {
 		for (var x = 0; x < pipelines.length; x ++) {
-			pipelineCode += "<li class='pipeline entry container' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span> </div></li>";
+
+            console.log(pipelines[x]);
+            var stateHtml = "<ul class='state-list'>";
+            for (var s = 0; s < pipelines[x].states.length; s++) {
+                stateHtml += "<li>" + pipelines[x].states[s].name + "</li>";
+            }
+            stateHtml += "</ul>";
+
+            pipelineCode += "<li class='pipeline entry container' data-index='"
+                + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span> </div></li>";
+            pipelineCode += "<div class='pipeline-dropdown' style='display:none'>" + stateHtml + "</div>";
 		}
-		callback(pipelineCode);
+
+        callback(pipelineCode);
+
 	});
 }
 
