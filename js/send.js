@@ -5,9 +5,8 @@ $(document).ready(function() {
 	sendMessage(message);
 });
 
-/*
-	Hunter fill this in to send the message
-*/
 function sendMessage(message) {
-	console.log(message);
+	$("textarea").first().val(message); //fill message
+	$("#u_0_s").click(); //send
+	window.close();
 }
