@@ -21,12 +21,12 @@ function loadSingleMessageView() {
 
 function injectInitialView() {
 	$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'>Fuck It</a></div>");
-	var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
-				+ getPipelines() + 
-				"<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
-	$("ul:first").before(output);
+    var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
+                + getPipelines() + 
+                "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
+                $("ul:first").before(output);
+
     $(".pipeline.entry:first").css("border-top", "0px");
-    
     //pipelines hover/click functions
     $(".pipelines").children().hover(
       function() {
@@ -46,12 +46,12 @@ function injectInitialView() {
 }
 
 function getPipelines() {
-	var pipelineCode = "";
-	var pipelineName = ["Gaming", "Fundraising", "Recruiting"];
-	for (var x = 0; x < 3; x ++) {
-		pipelineCode += "<li class='pipeline entry' style='height: 71px; padding-left: 12px; '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelineName[x] + "</span> </div> </li>";
-	}
-	return pipelineCode;
+    var pipelineCode = "";
+    var pipelineName = ["Gaming", "Fundraising", "Recruiting", "Balling"];
+    for (var x = 0; x < pipelineName.length; x ++) {
+        pipelineCode += "<li class='pipeline entry' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelineName[x] + "</span> </div></li>";
+    }
+    return pipelineCode;
 }
 
 function loadMultiMessageView() {
