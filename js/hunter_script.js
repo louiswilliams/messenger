@@ -4,13 +4,20 @@ $(document).ready(function() {
 	injectInitialView();
 });
 
+$( "._4bl8._4bl7" ).click(function() {
+	if (status == "new") {
+		alert( "We nabbed the new message click." );
+		$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
+		$("#send_message").remove();
+	}
+});
+
 function injectInitialView() {
 	$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'>Fuck It</a></div>");
 	var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
 				+ getPipelines() + 
 				"<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
 				$("ul:first").before(output);
-
 }
 
 function getPipelines() {
@@ -23,23 +30,22 @@ function getPipelines() {
 }
 
 function injectNewMessageView() {
-	$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
+	$("._4_j4.clearfix").css("background","rgb(255, 255, 255)");
 	$("._2y8y.clearfix").attr("style", "margin-left: 40px;");
 	$("._1q5-").prepend("<div><a id='send_message' style='float: left; padding-top: 20px;'>Ship It</a></div>");
+	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
 }
-
 
 $(document).on("click", "#new_message", function() {
 	// click the actual /new button
 	if (status != "new") {
-		status = "new";
 		$(".img.sp_614YwBM1qJY.sx_a55cec").click();
-			var checkExist = setInterval(function() {
+		status = "new";
+		var checkExist = setInterval(function() {
 			if ($('._2y8y.clearfix').length) {
 		    	injectNewMessageView();
 		    	clearInterval(checkExist);
-		   }
-		}, 100); // check every 100ms for page to update
+		    }}, 100); // check every 100ms for page to update
 	}
 });
 
