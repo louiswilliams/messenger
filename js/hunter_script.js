@@ -205,37 +205,96 @@ $(document).on("click", "#new_message", function() {
 });
 
 $(document).on("click", '#send_message', function() {
-    var text = $('textarea#multi_message').val();
+	// send3TestMessages();
+
+    if (status = "multi") {
+    	var text = $('textarea#multi_message').val();
+    }
     grabContactsAndSend(text);
+    status = "null";
 });
 	
 
 function grabContactsAndSend(message) {
 	// var message = $("._54-z").children(0).children(0).children(0).children(0).text();
-
+	var urlArray = [];
 	$("._58-2.clearfix").children("span").each( function() {
 		if ($(this).hasClass("_5vn4")) {
-			// console.log($(this));
+			console.log($(this));
 			unformatted = $(this).attr("data-reactid");
 			var id = unformatted.match(/\d{4,45}/)[0];
 			var name = $(this).text();
-			sendMessage(id, message, name);
+			urlArray.push(getMessageUrl(id, message, name));
 		}
-		status = "null";
-		location.reload();
 	});
+
+	var next = function(i) {
+	    var win = window.open(urlArray[i]);
+	    var timer = setInterval(function() {
+	        if (win.closed) {
+	            clearInterval(timer);
+	            if (i + 1 < urlArray.length ) {
+		            next(i+1);	            	
+	            } else {
+	            	location.reload();
+	            }
+
+	        }
+	    }, 500);    		
+	}
+
+	next(0);
+
 
 }
 
 
 
+function send3TestMessages() {
+	var url1 = "https://www.facebook.com/messages/553235347?message=hey";
+	var url2 = "https://www.facebook.com/messages/1508092452?message=what's up?";
+	var url3 = "https://www.facebook.com/messages/679679450?message=yu chillin?";
+    var urlArray = [];
+    urlArray.push(url1);
+    urlArray.push(url2);
+    urlArray.push(url3);
+    console.log(urlArray);
 
-function sendMessage(id, message, fullName) {
-	console.log("sending " + message + " to " + fullName);
+	var next = function(i) {
+	    var win = window.open(urlArray[i]);
+	    var timer = setInterval(function() {
+	        if (win.closed) {
+	            clearInterval(timer);
+	            if (i + 1 < urlArray.length ) {
+		            next(i+1);	            	
+	            } else {
+	            	return;
+	            }
+
+	        }
+	    }, 500);    		
+	}
+
+	next(0);
+
+}
+
+function getMessageUrl(id, message, fullName) {
 	var nameArray = fullName.split(" ");
 	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName};
 	message = processMessage(message, mapping);
 	sendUrl = baseFbUrl + id + "?message=" + message;
+	return sendUrl
+}
+
+
+function sendMessage(id, message, fullName) {
+	var nameArray = fullName.split(" ");
+	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName};
+	message = processMessage(message, mapping);
+	sendUrl = baseFbUrl + id + "?message=" + message;
+	console.log("sending " + message + " to " + fullName);
+	console.log(sendUrl);
 	openInNewTab(sendUrl);
 }
 
