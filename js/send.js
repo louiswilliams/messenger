@@ -8,5 +8,6 @@ $(document).ready(function() {
 function sendMessage(message) {
 	$("textarea").first().val(message); //fill message
 	$("#u_0_s").click(); //send
-	window.close();
+	setTimeout(	window.close, 500);
+
 }
