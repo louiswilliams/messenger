@@ -40,4 +40,18 @@
      2) The sidebar div will have an inline style with the height of the window in it. You'll have to take that height inline style and put it into this div. The default is inside here already but you gotta change it bruh
      3) Append the class "hidden_elem" to this div to hide it  -->
 
-     <div class="pipeline sidebar" style="height: 500px"><h1>hello</h1></div>
+<div class="pipeline sidebar" style="height: 500px"><h1>hello</h1></div>
+
+<!-- When you are composing a new message to a group of people for the first time... 1) Inject the "pipeline new_message" classes into the whitespace above the "Type a message..." box (the div you want has an inline style with the height) and 2) inject the following html into said div
+-->
+
+<span class="pipeline coach-marks">
+  <h1>You are about to send a group message to [name1], [name2], and 2 others.</h1>
+  <p>Tip: you can use these <strong>handlebars</strong> to inject personalized content to each person. For example...</p>
+  <ul>
+    <li>{{first_name}}: The user's first name</li>
+    <li>{{employer}}: The user's listed workplace</li>
+    <li>{{custom_greeting}}: Use a greeting that you preset for each user</li>
+    <li><a href="#">Learn more about handlebars</a></li>
+  </ul>
+</span>

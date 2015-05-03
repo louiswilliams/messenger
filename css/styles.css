@@ -1,3 +1,5 @@
+/*Left sidebar content with the list of pipelines you have*/
+
 .pipeline .header {
     display: block;   
     height: 30px;   
@@ -46,6 +48,8 @@
     line-height: 1.4;
 }
 
+/*Right sidebar with the pipeline's states*/
+
 .pipeline .sidebar {
     background-color: #fff;
     border-left: 1px solid rgba(0, 0, 0, .10);
@@ -55,3 +59,20 @@
     float: right;
 }
 
+/*Compose New Message Screen*/
+
+.pipeline .new_message {
+    position: relative;
+}
+
+.pipeline .coach-marks {
+    position: absolute;
+    bottom: 0;
+    margin-left: 12px;
+    margin-bottom: 1em;
+}
+
+.pipeline .coach-marks ul {
+    margin-left: 2em;
+    list-style-type: disc;
+}
