@@ -107,7 +107,6 @@ function injectInitialView() {
 	})
 
 }
-
 function getPipelines(callback) {
 	var pipelineCode = "";
 	api.getPipelines(function (pipelines) {
@@ -116,8 +115,9 @@ function getPipelines(callback) {
             console.log(pipelines[x]);
             var stateHtml = "<ul class='state-list'>";
             for (var s = 0; s < pipelines[x].states.length; s++) {
-                stateHtml += "<li>" + pipelines[x].states[s].name + "</li>";
-            }
+                stateHtml += "<li style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px; background-color: hsl(" + ((s * 50) % 360) + ", 100%, 90%);'>" + pipelines[x].states[s].name+ generateStateEntries();
+                     + "</li>";
+                 }
             stateHtml += "</ul>";
 
             pipelineCode += "<li class='pipeline entry container' data-index='"
@@ -128,6 +128,15 @@ function getPipelines(callback) {
         callback(pipelineCode);
 
 	});
+}
+
+function generateStateEntries() {
+    var entries = "<ul class='states'>";
+    for (var i=0;i<3;i++) {
+        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='http://placehold.it/32x32' style='border-radius: 16px; '></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; '>" + "state test" + i + "</span> </div></li>";
+    }
+    entries += "</ul>";
+    return entries;
 }
 
 
