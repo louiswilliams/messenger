@@ -186,7 +186,7 @@ function getPipelines(callback) {
 function generateStateEntries(conversations) {
     var entries = "<ul class='states'>";
     for (var i=0; i < conversations.length; i++) {
-        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='http://placehold.it/32x32' style='border-radius: 16px; '></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <a style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; ' href='/t/" + conversations[i].facebookId + "'>" + conversations[i].facebookId + "</a> </div></li>";
+        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='" + conversations[i].image + "' style='border-radius: 16px; height: 32px; width: 32px'></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <a style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; ' href='/t/" + conversations[i].facebookId + "'>" + conversations[i].name + "</a> </div></li>";
     }
     entries += "</ul>";
     return entries;
