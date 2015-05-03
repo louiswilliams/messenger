@@ -139,9 +139,6 @@ function generateStateEntries() {
     return entries;
 }
 
-
-
-
 $(document).on("click", "#new_message", function() {
 	// click the actual /new button
 	if (status != "multi") {
@@ -151,13 +148,29 @@ $(document).on("click", "#new_message", function() {
 			if ($('._2y8y.clearfix').length) {
 		    	loadMultiMessageView();
 		    	clearInterval(checkExist);
+                $("._2y8z._4bl7").html("<span id='back_btn' style='border-radius: 44px; color: rgb(8, 136, 255); font-size: 14px;   padding: 5px 10px 4px 10px; margin-right: 1em; border: solid rgb(8, 136, 255) 2px; text-decoration: none;'>Cancel</span>" + "To:");
+                $("#back_btn").hover(
+                  function() {
+                    $(this).css({
+                      "background-color": "rgb(8, 136, 255)",
+                        "color": "#ffffff",
+                        "cursor": "pointer"
+                    });
+                  }, function() {
+                    $(this).css({
+                      "background-color": "#ffffff",
+                        "color": "rgb(8, 136, 255)"
+                    });
+                  }
+                );
+                $("#back_btn").click(function() {
+                    alert('please go back');
+                });
 		    }
 		}, 100); // check every 100ms for page to update
 		// this code above could be useful
 	}
 });
-
-
 
 $(document).on("click", '#send_message', function() {
     var text = $('textarea#multi_message').val();
