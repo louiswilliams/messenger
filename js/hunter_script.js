@@ -2,22 +2,40 @@ var status = "null";
 
 $(document).ready(function() {
 	injectInitialView();
+	$("._4_j4.clearfix").bind("DOMSubtreeModified", function() {
+	    if (status == "multi") {
+	    	$("._4rv3").css("display", "none");
+	    }
+	});
 });
 
 $(document).on("click", "._4bl8._4bl7", function() {
 	if (status == "multi") {
 		// this is for reversing from multi
-		loadSingleMessageView();
 		status = "single";
+		loadSingleMessageView();
 	}
 });
 
 function loadSingleMessageView() {
 	// alert( "We nabbed the new message click." );
+	$("._4rv3").css("display", "");
 	$("._4_j4.clearfix").css("background","rgb(255, 255, 255)");
-	$("._2y8y.clearfix").attr("style", "margin-left: 0px;");
 	$("#send_message").remove();
+	$("#multi_message_text_holder").remove();
 }
+
+function loadMultiMessageView() {
+	// below is the style of the last two buttons
+	$("._4_j4.clearfix").children("._4bl9").append("<div id='multi_message_text_holder' style='bottom: 25; width: 100%;'><textarea id='multi_message' style='left: 0; right: 0; margin: 0px; width:100%; height: 3em;'></textarea></div>");
+	$("._4_j4.clearfix").children("._4bl9").append("<a id='send_message''><div style='bottom: 0; width: 100%; height: 25px; position: fixed;'>Ship It</div></a>");
+	$("._4rv3").css("display", "none");
+	$("._4_j4.clearfix").css("background","rgb(203, 230, 254)");
+	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
+}
+
+
+
 
 function injectInitialView() {
 	$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'>Fuck It</a></div>");
@@ -54,12 +72,8 @@ function getPipelines() {
     return pipelineCode;
 }
 
-function loadMultiMessageView() {
-	$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
-	$("._2y8y.clearfix").attr("style", "margin-left: 40px;");
-	$("._1q5-").prepend("<div><a id='send_message' style='float: left; padding-top: 20px;'>Ship It</a></div>");
-	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
-}
+
+
 
 $(document).on("click", "#new_message", function() {
 	// click the actual /new button
@@ -76,12 +90,17 @@ $(document).on("click", "#new_message", function() {
 	}
 });
 
-$(document).on("click", "#send_message", function() {
-	grabContactsAndSend();
-});
 
-function grabContactsAndSend() {
-	var message = $("._54-z").children(0).children(0).children(0).children(0).text();
+
+$(document).on("click", '#send_message', function() {
+    var text = $('textarea#multi_message').val();
+    grabContactsAndSend(text);
+});
+	
+
+function grabContactsAndSend(message) {
+	// var message = $("._54-z").children(0).children(0).children(0).children(0).text();
+
 	$("._58-2.clearfix").children("span").each( function() {
 		if ($(this).hasClass("_5vn4")) {
 			// console.log($(this));
@@ -91,7 +110,7 @@ function grabContactsAndSend() {
 			sendMessage(id, message, name);
 		}
 		status = "null";
-		// location.reload();
+		location.reload();
 	});
 
 }
