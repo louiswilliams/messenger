@@ -159,7 +159,7 @@ function getPipelines(callback) {
                     pipelineCode +=
                     "<li class='pipeline entry container' data-index='" + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'>" +
                         "<div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '>" +
-                            "<img src='" + pipeline.image + "' style='height: 50px; width: 50px; border-radius: 25px; '></img>" +
+                            "<img src='" + pipeline.image + "' style='height: 50px; width: 50px;'></img>" +
                         "</div>" + 
                         "<div class='pipeline entry info' style='float: left; padding-top: 25px; '>" +
                             "<span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span>" + 
