@@ -6,14 +6,12 @@ $(document).ready(function() {
 
 function injectInitialView() {
 	$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'>Fuck It</a></div>");
+	$("ul:first").before("<ul class='pipelines'> <li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Pipelines</h1> </li> <li class='pipeline entry selected' style='height: 71px; padding-left: 12px; background-color: rgb(243, 243, 243); '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>Sales</span> </div> </li> <li class='pipeline entry' style='height: 71px; padding-left: 12px; '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>Recruiting</span> </div> </li> <li class='pipeline entry' style='height: 71px; padding-left: 12px; '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>Fundraising</span> </div> </li> <li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>");
 }
 function injectNewMessageView() {
 	$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
 	$("._2y8y.clearfix").attr("style", "margin-left: 40px;");
 	$("._1q5-").prepend("<div><a id='send_message' style='float: left; padding-top: 20px;'>Ship It</a></div>");
-	console.log($("._4bl9 ._4bl9 > :first-child").html());
-
-	//$("._4_j4.clearfix ._4bl9 div:first-child").prepend("<span class='pipeline coach-marks'><h1>You are about to send a group message to [name1], [name2], and 2 others.</h1><p>Tip: you can use these <strong>handlebars</strong> to inject personalized content to each person. For example...</p><ul><li>{{first_name}}: The user's first name</li><li>{{employer}}: The user's listed workplace</li><li>{{custom_greeting}}: Use a greeting that you preset for each user</li><li><a href=''>Learn more about handlebars</a></li></ul></span>");
 }
 
 
