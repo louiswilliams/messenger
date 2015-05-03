@@ -40,7 +40,7 @@ function injectInitialView() {
         $(".pipelines").children().css("background-color", "#ffffff");
         $(".pipelines").children().removeClass("selected");
         $(this).addClass("selected");
-        $(".pipeline.entry.selected").css("background-color", "rgba(243, 243, 243, 1)");
+        $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
         // code to swap pipeline sidebar here
     });
 }
@@ -49,7 +49,7 @@ function getPipelines() {
     var pipelineCode = "";
     var pipelineName = ["Gaming", "Fundraising", "Recruiting", "Balling"];
     for (var x = 0; x < pipelineName.length; x ++) {
-        pipelineCode += "<li class='pipeline entry' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelineName[x] + "</span> </div></li>";
+        pipelineCode += "<li class='pipeline entry container' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelineName[x] + "</span> </div></li>";
     }
     return pipelineCode;
 }
