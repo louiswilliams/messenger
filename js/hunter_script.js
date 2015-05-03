@@ -1,4 +1,24 @@
 var status = "null";
+var accessToken = "6b34fe24ac2ff8103f6fce1f0da2ef57";
+var url = "https://messenger.louiswilliams.org/user/" + accessToken;
+
+var api = {
+	getPipelines: function(callback) {
+		$.get(url + "/pipelines", callback);
+	},
+	createPipeline: function(pipeline, callback) {
+		$.post(url + "/pipeline", pipeline, callback)
+	},
+	getPipeline: function(pipelineId, callback) {
+		$.get(url + "/pipeline/" + pipelineId, callback);
+	},
+	getState: function(stateId, callback) {
+		$.get(url + "/state/" + stateId, callback);
+	},
+	getConversation: function(conversationId, callback) {
+		$.get(url + "/conversation/" + conversationId, callback);
+	}
+}
 
 $(document).ready(function() {
 	injectInitialView();
@@ -13,20 +33,25 @@ $( "._4bl8._4bl7" ).click(function() {
 });
 
 function injectInitialView() {
+
 	$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'>Fuck It</a></div>");
-	var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
-				+ getPipelines() + 
+	getPipelines(function (html) {
+		var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
+				+ html + 
 				"<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
-				$("ul:first").before(output);
+		$("ul:first").before(output);
+	})
+
 }
 
-function getPipelines() {
+function getPipelines(callback) {
 	var pipelineCode = "";
-	var pipelineName = ["Gaming", "Fundraising", "Recruiting"];
-	for (var x = 0; x < 3; x ++) {
-		pipelineCode += "<li class='pipeline entry' style='height: 71px; padding-left: 12px; '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelineName[x] + "</span> </div> </li>";
-	}
-	return pipelineCode;
+	api.getPipelines(function (pipelines) {
+		for (var x = 0; x < pipelines.length; x ++) {
+			pipelineCode += "<li class='pipeline entry' style='height: 71px; padding-left: 12px; '> <div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span> </div> </li>";
+		}
+		callback(pipelineCode);
+	});
 }
 
 function injectNewMessageView() {
@@ -97,6 +122,7 @@ function openInNewTab(url) {
   var win = window.open(url, '_blank');
   // win.focus();
 }
+
 
 // $('html').on('DOMSubtreeModified', "._1q5-", function(event) {
 // 	var inTree = $("._58-2.clearfix");
