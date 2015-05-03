@@ -7,7 +7,8 @@
     text-align: center;
     font-size: 16px;
     font-weight: 500;
-    padding-top: 5px;rgba(0, 0, 0, .40);
+    padding-top: 5px;
+    rgba(0, 0, 0, .40);
 }
 
 .pipeline .entry {
@@ -44,3 +45,13 @@
     font-weight: 400;
     line-height: 1.4;
 }
+
+.pipeline .sidebar {
+    background-color: #fff;
+    border-left: 1px solid rgba(0, 0, 0, .10);
+    max-width: 420px;
+    min-width: 280px;
+    width: 33%;
+    float: right;
+}
+
