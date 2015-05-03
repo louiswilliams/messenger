@@ -11,7 +11,9 @@ function injectNewMessageView() {
 	$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
 	$("._2y8y.clearfix").attr("style", "margin-left: 40px;");
 	$("._1q5-").prepend("<div><a id='send_message' style='float: left; padding-top: 20px;'>Ship It</a></div>");
-	      	
+	console.log($("._4bl9 ._4bl9 > :first-child").html());
+
+	//$("._4_j4.clearfix ._4bl9 div:first-child").prepend("<span class='pipeline coach-marks'><h1>You are about to send a group message to [name1], [name2], and 2 others.</h1><p>Tip: you can use these <strong>handlebars</strong> to inject personalized content to each person. For example...</p><ul><li>{{first_name}}: The user's first name</li><li>{{employer}}: The user's listed workplace</li><li>{{custom_greeting}}: Use a greeting that you preset for each user</li><li><a href=''>Learn more about handlebars</a></li></ul></span>");
 }
 
 
@@ -51,8 +53,15 @@ function grabContactsAndSend() {
 
 function sendMessage(id, message, fullName) {
 	console.log("sending " + message + " to " + fullName);
+	$("._4_j4.clearfix ._4bl9").css("position", "relative");
+	$(".pipeline.coach-marks").css({
+		"position": "absolute",
+		"bottom": "0",
+		"margin-left": "12px",
+		"margin-bottom": "1em"
+	});
+	$("._4_j4.clearfix ._4bl9 div[style^='height']").html("<span class='pipeline coach-marks'><h1>You are about to send a group message to [name1], [name2], and 2 others.</h1><p>Tip: you can use these <strong>handlebars</strong> to inject personalized content to each person. For example...</p><ul><li>{{first_name}}: The user's first name</li><li>{{employer}}: The user's listed workplace</li><li>{{custom_greeting}}: Use a greeting that you preset for each user</li><li><a href=''>Learn more about handlebars</a></li></ul></span>")
 }
-
 
 // $('html').on('DOMSubtreeModified', "._1q5-", function(event) {
 // 	var inTree = $("._58-2.clearfix");
