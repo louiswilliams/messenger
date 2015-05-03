@@ -236,7 +236,7 @@ function grabContactsAndSend(message) {
 	            if (i + 1 < urlArray.length ) {
 		            next(i+1);	            	
 	            } else {
-	            	return;
+	            	location.reload();
 	            }
 
 	        }
