@@ -52,12 +52,9 @@ function loadSingleMessageView() {
 }
 
 function loadMultiMessageView() {
-	// below is the style of the last two buttons
-	$("._4_j4.clearfix").children("._4bl9").append("<div id='multi_message_text_holder' style='bottom: 25; width: 100%;'><textarea id='multi_message' style='left: 0; right: 0; margin: 0px; width:100%; height: 3em;'></textarea></div>");
-	$("._4_j4.clearfix").children("._4bl9").append("<a id='send_message''><div style='bottom: 0; width: 100%; height: 25px; position: fixed;'>Ship It</div></a>");
-	$("._4rv3").css("display", "none");
-	$("._4_j4.clearfix").css("background","rgb(203, 230, 254)");
-	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
+    // below is the style of the last two buttons
+    $("._4_j4.clearfix").children("._4bl9").append("<div id='multi_message_text_holder' style='bottom: 25; width: 100%;'><textarea id='multi_message' style='width: 100%; height: 140px; bottom: 5em; position: absolute; font-size: 14px; padding-left: 12px; padding-top: 24px; padding-bottom: 24px;' placeholder='Type your group message here...'></textarea></div>"); $("#multi_message").css("font-family", "Helvetica Neue");
+    $("._4_j4.clearfix").children("._4bl9").append("<a id='send_message'><div style='bottom: 0; height: 25px; position: fixed; border-radius: 22px; color: #ffffff; background: rgb(8, 136, 255); padding: 13px 15px 6px 15px; text-decoration: none; bottom: 13px; margin-left: 13px;}'>Ship It</div></a>"); $("._4rv3").css("display", "none"); $("._4_j4.clearfix").css("background","rgb(235, 246, 255)"); //$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
     $("._2y8z._4bl7").html("<span id='back_btn' style='border-radius: 44px; color: rgb(8, 136, 255); font-size: 14px;   padding: 5px 10px 4px 10px; margin-right: 1em; border: solid rgb(8, 136, 255) 2px; text-decoration: none;'>Cancel</span>" + "To:");
     $("#back_btn").hover(
       function() {
