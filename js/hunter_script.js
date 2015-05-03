@@ -24,13 +24,20 @@ $(document).ready(function() {
 	injectInitialView();
 });
 
-$( "._4bl8._4bl7" ).click(function() {
-	if (status == "new") {
-		alert( "We nabbed the new message click." );
-		$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
-		$("#send_message").remove();
+$(document).on("click", "._4bl8._4bl7", function() {
+	if (status == "multi") {
+		// this is for reversing from multi
+		loadSingleMessageView();
+		status = "single";
 	}
 });
+
+function loadSingleMessageView() {
+	// alert( "We nabbed the new message click." );
+	$("._4_j4.clearfix").css("background","rgb(255, 255, 255)");
+	$("._2y8y.clearfix").attr("style", "margin-left: 0px;");
+	$("#send_message").remove();
+}
 
 function injectInitialView() {
 
@@ -54,8 +61,8 @@ function getPipelines(callback) {
 	});
 }
 
-function injectNewMessageView() {
-	$("._4_j4.clearfix").css("background","rgb(255, 255, 255)");
+function loadMultiMessageView() {
+	$("._4_j4.clearfix").css("background","rgb(240, 158, 158)");
 	$("._2y8y.clearfix").attr("style", "margin-left: 40px;");
 	$("._1q5-").prepend("<div><a id='send_message' style='float: left; padding-top: 20px;'>Ship It</a></div>");
 	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
@@ -63,14 +70,16 @@ function injectNewMessageView() {
 
 $(document).on("click", "#new_message", function() {
 	// click the actual /new button
-	if (status != "new") {
+	if (status != "multi") {
 		$(".img.sp_614YwBM1qJY.sx_a55cec").click();
-		status = "new";
+		status = "multi";
 		var checkExist = setInterval(function() {
 			if ($('._2y8y.clearfix').length) {
-		    	injectNewMessageView();
+		    	loadMultiMessageView();
 		    	clearInterval(checkExist);
-		    }}, 100); // check every 100ms for page to update
+		    }
+		}, 100); // check every 100ms for page to update
+		// this code above could be useful
 	}
 });
 
