@@ -8,6 +8,11 @@
             "matches": ["https://www.messenger.com/*"],
             "css": ["./css/hunter_style.css"],
             "js": ["./js/jquery.min.js", "./js/hunter_script.js"]
+        },
+        {
+            "matches": ["https://www.facebook.com/messages/*?message=*"],
+            "css": ["./css/send.css"],
+            "js": ["./js/jquery.min.js", "./js/send.js"]
         }
     ],
     "permissions": [

@@ -49,10 +49,34 @@ function grabContactsAndSend() {
 
 }
 
+
+
+
 function sendMessage(id, message, fullName) {
 	console.log("sending " + message + " to " + fullName);
+	var nameArray = fullName.split(" ");
+	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName};
+	message = processMessage(message, mapping);
+	sendUrl = baseFbUrl + id + "?message=" + message;
+	openInNewTab(sendUrl);
 }
 
+function processMessage(message, mapping) {
+	for (var key in mapping) {
+    	var attrName = key;
+        var attrValue = mapping[key];
+        var attrName = "{{" + attrName + "}}";
+        message = message.replace(attrName, attrValue);
+    }
+    return message;
+}
+
+var baseFbUrl = "https://www.facebook.com/messages/"
+
+function openInNewTab(url) {
+  var win = window.open(url, '_blank');
+  // win.focus();
+}
 
 // $('html').on('DOMSubtreeModified', "._1q5-", function(event) {
 // 	var inTree = $("._58-2.clearfix");
