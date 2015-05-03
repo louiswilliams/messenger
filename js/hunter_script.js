@@ -66,74 +66,108 @@ function injectInitialView() {
     $("a[aria-label='New Message']").before("<a id='new_message' style='float: left;'><img src='https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/32/paper-plane.png'></img></a>");
 	//$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'><img src='http://placehold.it/32x32'></img></a></div>");
 
+    $("ul:first").before(
+        "<ul class='pipelines'>" +
+            "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
+                "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1>" +
+            "</li>" +
+            "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
+                "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1>" +
+            "</li>" +
+        "</ul>"
+    );
 	getPipelines(function (html) {
-		var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
-			+ html + 
-			"<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
-	
-    	$("ul:first").before(output);
-        $(".pipeline.entry:first").css("border-top", "0px");
-        //pipelines hover/click functions
-        $(".pipelines").children().hover(
-          function() {
-            $(this).css({
+		$("ul.pipelines li.pipeline.header:last").before(html);
+    	
+    });
+
+    $(".pipeline.entry:first").css("border-top", "0px");
+    //pipelines hover/click functions
+    $(".pipelines").on({
+        mouseenter: function() {
+            $(this).children(".pipeline.entry.container").css({
               "cursor": "pointer"
             });
-          }, function() {
-          }
-        );
+        },
+        mouseleave: function() {
+            $(this).children(".pipeline.entry.container").css({
+                "cursor": "default"
+            });
+        },
+    });
 
-        $(".pipeline.entry.container").click(function() {    
-            if (typeof(activePipeline) == "undefined" || activePipeline != $(this).data("index")) {
-                $(".pipeline.entry.container").removeClass("selected");
-                $(this).addClass("selected");
-                $(".pipeline.entry.container").next(".pipeline-dropdown").slideUp(250);
+    $(".pipelines").on("click", ".pipeline.entry.container", function() {    
+        if (typeof(activePipeline) == "undefined" || activePipeline != $(this).data("index")) {
+            $(".pipeline.entry.container").removeClass("selected");
+            $(this).addClass("selected");
+            $(".pipeline.entry.container").next(".pipeline-dropdown").slideUp(250);
 
-                $(this).next(".pipeline-dropdown").slideDown(250);
+            $(this).next(".pipeline-dropdown").slideDown(250);
 
-                activePipeline = $(this).data("index");
-            } else {
-                $(this).removeClass("selected");
-                $(this).next(".pipeline-dropdown").slideUp(250);
+            activePipeline = $(this).data("index");
+        } else {
+            $(this).removeClass("selected");
+            $(this).next(".pipeline-dropdown").slideUp(250);
 
-                activePipeline = undefined;
+            activePipeline = undefined;
 
-            }
-            $(".pipeline.entry.container").css("background-color", "#ffffff");
-            $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
+        }
+        $(".pipeline.entry.container").css("background-color", "#ffffff");
+        $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
 
-            // code to swap pipeline sidebar here
-        });
-	})
+        // code to swap pipeline sidebar here
+    });
 
 }
 function getPipelines(callback) {
-	var pipelineCode = "";
 	api.getPipelines(function (pipelines) {
+
 		for (var x = 0; x < pipelines.length; x ++) {
 
-            console.log(pipelines[x]);
-            var stateHtml = "<ul class='state-list'>";
-            for (var s = 0; s < pipelines[x].states.length; s++) {
-                stateHtml += "<li style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px; background-color: hsl(" + ((s * 50) % 360) + ", 100%, 90%);'>" + pipelines[x].states[s].name+ generateStateEntries();
-                     + "</li>";
-                 }
-            stateHtml += "</ul>";
 
-            pipelineCode += "<li class='pipeline entry container' data-index='"
-                + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'><div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '> <img src='http://placehold.it/50x50' style='border-radius: 25px; '></img> </div> <div class='pipeline entry info' style='float: left; padding-top: 25px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span> </div></li>";
-            pipelineCode += "<div class='pipeline-dropdown' style='display:none'>" + stateHtml + "</div>";
+            (function (x) {
+                var pipeline = pipelines[x];
+                var pipelineCode = "";
+
+                api.getStates(pipeline._id, function (states) {
+                    console.log("states", states);
+
+                    var stateHtml = "<ul class='state-list'>";
+                    
+                    for (var s = 0; s < states.length; s++) {
+                        stateHtml += "<li style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px; background-color: hsl(" + ((s * 50) % 360) + ", 100%, 90%);'>" + states[s].name+ generateStateEntries(states[s].conversations);
+                             + "</li>";
+                         }
+                    stateHtml += "</ul>";
+
+                    pipelineCode +=
+                    "<li class='pipeline entry container' data-index='" + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'>" +
+                        "<div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '>" +
+                            "<img src='http://placehold.it/50x50' style='border-radius: 25px; '></img>" +
+                        "</div>" + 
+                        "<div class='pipeline entry info' style='float: left; padding-top: 25px; '>" +
+                            "<span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span>" + 
+                        "</div>" +
+                    "</li>" + 
+                    "<div class='pipeline-dropdown' style='display:none'>" + stateHtml + "</div>";
+
+                    callback(pipelineCode);
+
+                });
+            })(x);
+
+
+
 		}
 
-        callback(pipelineCode);
 
 	});
 }
 
-function generateStateEntries() {
+function generateStateEntries(conversations) {
     var entries = "<ul class='states'>";
-    for (var i=0;i<3;i++) {
-        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='http://placehold.it/32x32' style='border-radius: 16px; '></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; '>" + "state test" + i + "</span> </div></li>";
+    for (var i=0; i < conversations.length; i++) {
+        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='http://placehold.it/32x32' style='border-radius: 16px; '></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <a style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; ' href='/t/" + conversations[i].facebookId + "'>" + conversations[i].facebookId + "</a> </div></li>";
     }
     entries += "</ul>";
     return entries;
