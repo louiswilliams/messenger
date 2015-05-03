@@ -24,7 +24,25 @@ function injectInitialView() {
 	var output = "<ul class='pipelines'> <li class='pipeline header'style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1> </li>"
 				+ getPipelines() + 
 				"<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '> <h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1> </li> </ul>"; 
-				$("ul:first").before(output);
+	$("ul:first").before(output);
+    $(".pipeline.entry:first").css("border-top", "0px");
+    
+    //pipelines hover/click functions
+    $(".pipelines").children().hover(
+      function() {
+        $(this).css({
+          "cursor": "pointer"
+        });
+      }, function() {
+      }
+    );
+    $(".pipeline.entry").click(function() {
+        $(".pipelines").children().css("background-color", "#ffffff");
+        $(".pipelines").children().removeClass("selected");
+        $(this).addClass("selected");
+        $(".pipeline.entry.selected").css("background-color", "rgba(243, 243, 243, 1)");
+        // code to swap pipeline sidebar here
+    });
 }
 
 function getPipelines() {
