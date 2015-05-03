@@ -44,6 +44,7 @@ $(document).on("click", "._4bl8._4bl7", function() {
 
 function loadSingleMessageView() {
 	// alert( "We nabbed the new message click." );
+    $("._2y8z._4bl7").empty();
 	$("._4rv3").css("display", "");
 	$("._4_j4.clearfix").css("background","rgb(255, 255, 255)");
 	$("#send_message").remove();
@@ -57,6 +58,24 @@ function loadMultiMessageView() {
 	$("._4rv3").css("display", "none");
 	$("._4_j4.clearfix").css("background","rgb(203, 230, 254)");
 	//$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
+    $("._2y8z._4bl7").html("<span id='back_btn' style='border-radius: 44px; color: rgb(8, 136, 255); font-size: 14px;   padding: 5px 10px 4px 10px; margin-right: 1em; border: solid rgb(8, 136, 255) 2px; text-decoration: none;'>Cancel</span>" + "To:");
+    $("#back_btn").hover(
+      function() {
+        $(this).css({
+          "background-color": "rgb(8, 136, 255)",
+            "color": "#ffffff",
+            "cursor": "pointer"
+        });
+      }, function() {
+        $(this).css({
+          "background-color": "#ffffff",
+            "color": "rgb(8, 136, 255)"
+        });
+      }
+    );
+    $("#back_btn").click(function() {
+        location.reload();
+    });
 }
 
 
@@ -177,29 +196,11 @@ $(document).on("click", "#new_message", function() {
 	// click the actual /new button
 	if (status != "multi") {
 		$(".img.sp_614YwBM1qJY.sx_a55cec").click();
-		status = "multi";
 		var checkExist = setInterval(function() {
 			if ($('._2y8y.clearfix').length) {
 		    	loadMultiMessageView();
+                status = "multi";
 		    	clearInterval(checkExist);
-                $("._2y8z._4bl7").html("<span id='back_btn' style='border-radius: 44px; color: rgb(8, 136, 255); font-size: 14px;   padding: 5px 10px 4px 10px; margin-right: 1em; border: solid rgb(8, 136, 255) 2px; text-decoration: none;'>Cancel</span>" + "To:");
-                $("#back_btn").hover(
-                  function() {
-                    $(this).css({
-                      "background-color": "rgb(8, 136, 255)",
-                        "color": "#ffffff",
-                        "cursor": "pointer"
-                    });
-                  }, function() {
-                    $(this).css({
-                      "background-color": "#ffffff",
-                        "color": "rgb(8, 136, 255)"
-                    });
-                  }
-                );
-                $("#back_btn").click(function() {
-                    alert('please go back');
-                });
 		    }
 		}, 100); // check every 100ms for page to update
 		// this code above could be useful
