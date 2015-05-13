@@ -3,26 +3,33 @@ var accessToken = "6b34fe24ac2ff8103f6fce1f0da2ef57";
 var url = "https://messenger.louiswilliams.org/user/" + accessToken;
 var activePipeline;
 
-var api = {
-	getPipelines: function(callback) {
-		$.get(url + "/pipelines", callback);
-	},
-	createPipeline: function(pipeline, callback) {
-		$.post(url + "/pipeline", pipeline, callback)
-	},
-	getPipeline: function(pipelineId, callback) {
-		$.get(url + "/pipeline/" + pipelineId, callback);
-	},
-    getStates: function(pipelineId, callback) {
-        $.get(url + "/pipeline/" + pipelineId + "/states", callback);
-    },
-	getState: function(stateId, callback) {
-		$.get(url + "/state/" + stateId, callback);
-	},
-	getConversation: function(conversationId, callback) {
-		$.get(url + "/conversation/" + conversationId, callback);
-	}
-}
+
+// commented out code references pipeline process that is being removed now
+// but not permanently
+
+
+
+
+// var api = {
+// 	getPipelines: function(callback) {
+// 		$.get(url + "/pipelines", callback);
+// 	},
+// 	createPipeline: function(pipeline, callback) {
+// 		$.post(url + "/pipeline", pipeline, callback)
+// 	},
+// 	getPipeline: function(pipelineId, callback) {
+// 		$.get(url + "/pipeline/" + pipelineId, callback);
+// 	},
+//     getStates: function(pipelineId, callback) {
+//         $.get(url + "/pipeline/" + pipelineId + "/states", callback);
+//     },
+// 	getState: function(stateId, callback) {
+// 		$.get(url + "/state/" + stateId, callback);
+// 	},
+// 	getConversation: function(conversationId, callback) {
+// 		$.get(url + "/conversation/" + conversationId, callback);
+// 	}
+// }
 
 $(document).ready(function() {
 	injectInitialView();
@@ -50,6 +57,7 @@ function loadSingleMessageView() {
 	$("#send_message").remove();
 	$("#multi_message_text_holder").remove();
 }
+
 
 function loadMultiMessageView() {
     // below is the style of the last two buttons
@@ -82,112 +90,112 @@ function injectInitialView() {
     $("a[aria-label='New Message']").before("<a id='new_message' style='float: left;'><img src='https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/32/paper-plane.png'></img></a>");
 	//$("._36ic._5vn4.clearfix").prepend("<div><a id='new_message' style='float: left;'><img src='http://placehold.it/32x32'></img></a></div>");
 
-    $("ul:first").before(
-        "<ul class='pipelines'>" +
-            "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
-                "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1>" +
-            "</li>" +
-            "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
-                "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1>" +
-            "</li>" +
-        "</ul>"
-    );
-	getPipelines(function (html) {
-		$("ul.pipelines li.pipeline.header:last").before(html);
+    // ***THIS CODE IS FOR PIPELINE***$("ul:first").before(
+    //     "<ul class='pipelines'>" +
+    //         "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
+    //             "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '> Pipelines</h1>" +
+    //         "</li>" +
+    //         "<li class='pipeline header' style='display: block; height: 30px; padding-bottom: 12px; '>" +
+    //             "<h1 style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px;rgba(0, 0, 0, .40); '>Other Conversations</h1>" +
+    //         "</li>" +
+    //     "</ul>"
+    // );
+	// ***THIS CODE IS FOR PIPELINE***getPipelines(function (html) {
+	// 	$("ul.pipelines li.pipeline.header:last").before(html);
     	
-    });
+ //    });
 
-    $(".pipeline.entry:first").css("border-top", "0px");
+    // ***THIS CODE IS FOR PIPELINE***$(".pipeline.entry:first").css("border-top", "0px");
     //pipelines hover/click functions
-    $(".pipelines").on({
-        mouseenter: function() {
-            $(this).children(".pipeline.entry.container").css({
-              "cursor": "pointer"
-            });
-        },
-        mouseleave: function() {
-            $(this).children(".pipeline.entry.container").css({
-                "cursor": "default"
-            });
-        },
-    });
+    // ***THIS CODE IS FOR PIPELINE***$(".pipelines").on({
+    //     mouseenter: function() {
+    //         $(this).children(".pipeline.entry.container").css({
+    //           "cursor": "pointer"
+    //         });
+    //     },
+    //     mouseleave: function() {
+    //         $(this).children(".pipeline.entry.container").css({
+    //             "cursor": "default"
+    //         });
+    //     },
+    // });
 
-    $(".pipelines").on("click", ".pipeline.entry.container", function() {    
-        if (typeof(activePipeline) == "undefined" || activePipeline != $(this).data("index")) {
-            $(".pipeline.entry.container").removeClass("selected");
-            $(this).addClass("selected");
-            $(".pipeline.entry.container").next(".pipeline-dropdown").slideUp(250);
+    // ***THIS CODE IS FOR PIPELINE***$(".pipelines").on("click", ".pipeline.entry.container", function() {    
+    //     if (typeof(activePipeline) == "undefined" || activePipeline != $(this).data("index")) {
+    //         $(".pipeline.entry.container").removeClass("selected");
+    //         $(this).addClass("selected");
+    //         $(".pipeline.entry.container").next(".pipeline-dropdown").slideUp(250);
 
-            $(this).next(".pipeline-dropdown").slideDown(250);
+    //         $(this).next(".pipeline-dropdown").slideDown(250);
 
-            activePipeline = $(this).data("index");
-        } else {
-            $(this).removeClass("selected");
-            $(this).next(".pipeline-dropdown").slideUp(250);
+    //         activePipeline = $(this).data("index");
+    //     } else {
+    //         $(this).removeClass("selected");
+    //         $(this).next(".pipeline-dropdown").slideUp(250);
 
-            activePipeline = undefined;
+    //         activePipeline = undefined;
 
-        }
-        $(".pipeline.entry.container").css("background-color", "#ffffff");
-        $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
+    //     }
+    //     $(".pipeline.entry.container").css("background-color", "#ffffff");
+    //     $(".pipeline.entry.container.selected").css("background-color", "rgba(243, 243, 243, 1)");
 
-        // code to swap pipeline sidebar here
-    });
+    //     // code to swap pipeline sidebar here
+    // });
 
 }
-function getPipelines(callback) {
-	api.getPipelines(function (pipelines) {
+// ***THIS CODE IS FOR PIPELINE***function getPipelines(callback) {
+// 	api.getPipelines(function (pipelines) {
 
-		for (var x = 0; x < pipelines.length; x ++) {
+// 		for (var x = 0; x < pipelines.length; x ++) {
 
 
-            (function (x) {
-                var pipeline = pipelines[x];
-                var pipelineCode = "";
+//             (function (x) {
+//                 var pipeline = pipelines[x];
+//                 var pipelineCode = "";
 
-                api.getStates(pipeline._id, function (states) {
-                    console.log("states", states);
+//                 api.getStates(pipeline._id, function (states) {
+//                     console.log("states", states);
 
-                    var stateHtml = "<ul class='state-list'>";
+//                     var stateHtml = "<ul class='state-list'>";
                     
-                    for (var s = 0; s < states.length; s++) {
-                        stateHtml += "<li style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px; background-color: hsl(" + ((s * 50) % 360) + ", 100%, 90%);'>" + states[s].name+ generateStateEntries(states[s].conversations);
-                             + "</li>";
-                         }
-                    stateHtml += "</ul>";
+//                     for (var s = 0; s < states.length; s++) {
+//                         stateHtml += "<li style='text-align: center; font-size: 16px; font-weight: 500; padding-top: 5px; background-color: hsl(" + ((s * 50) % 360) + ", 100%, 90%);'>" + states[s].name+ generateStateEntries(states[s].conversations);
+//                              + "</li>";
+//                          }
+//                     stateHtml += "</ul>";
 
-                    pipelineCode +=
-                    "<li class='pipeline entry container' data-index='" + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'>" +
-                        "<div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '>" +
-                            "<img src='" + pipeline.image + "' style='height: 50px; width: 50px;'></img>" +
-                        "</div>" + 
-                        "<div class='pipeline entry info' style='float: left; padding-top: 25px; '>" +
-                            "<span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span>" + 
-                        "</div>" +
-                    "</li>" + 
-                    "<div class='pipeline-dropdown' style='display:none'>" + stateHtml + "</div>";
+//                     pipelineCode +=
+//                     "<li class='pipeline entry container' data-index='" + x + "' style='height: 71px; padding-left: 12px; border-top: 1px solid rgba(0, 0, 0, .10);'>" +
+//                         "<div class='pipeline entry avatar' style='padding-top: 10px; float: left; padding-right: 9px; '>" +
+//                             "<img src='" + pipeline.image + "' style='height: 50px; width: 50px;'></img>" +
+//                         "</div>" + 
+//                         "<div class='pipeline entry info' style='float: left; padding-top: 25px; '>" +
+//                             "<span style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 15px; font-weight: 400; line-height: 1.4; '>" + pipelines[x].name + "</span>" + 
+//                         "</div>" +
+//                     "</li>" + 
+//                     "<div class='pipeline-dropdown' style='display:none'>" + stateHtml + "</div>";
 
-                    callback(pipelineCode);
+//                     callback(pipelineCode);
 
-                });
-            })(x);
-
-
-
-		}
+//                 });
+//             })(x);
 
 
-	});
-}
 
-function generateStateEntries(conversations) {
-    var entries = "<ul class='states'>";
-    for (var i=0; i < conversations.length; i++) {
-        entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='" + conversations[i].image + "' style='border-radius: 16px; height: 32px; width: 32px'></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <a style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; ' href='/t/" + conversations[i].facebookId + "'>" + conversations[i].name + "</a> </div></li>";
-    }
-    entries += "</ul>";
-    return entries;
-}
+// 		}
+
+
+// 	});
+// }
+
+// ***THIS CODE IS FOR PIPELINE***function generateStateEntries(conversations) {
+//     var entries = "<ul class='states'>";
+//     for (var i=0; i < conversations.length; i++) {
+//         entries += "<li class='state entry container' data-index='"+ i + "' style='height: 48px; padding-left: 72px; border-top: 1px solid rgba(0, 0, 0, .10); background-color: #ffffff;'><div class='state entry avatar' style='padding-top: 8px; float: left; padding-right: 8px; '> <img src='" + conversations[i].image + "' style='border-radius: 16px; height: 32px; width: 32px'></img> </div> <div class='states entry info' style='float: left; padding-top: 14px; '> <a style='display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(0, 0, 0, 1); font-size: 14px; font-weight: 400; line-height: 1.4; ' href='/t/" + conversations[i].facebookId + "'>" + conversations[i].name + "</a> </div></li>";
+//     }
+//     entries += "</ul>";
+//     return entries;
+// }
 
 $(document).on("click", "#new_message", function() {
 	// click the actual /new button
@@ -224,7 +232,8 @@ function grabContactsAndSend(message) {
 			unformatted = $(this).attr("data-reactid");
 			var id = unformatted.match(/\d{4,45}/)[0];
 			var name = $(this).text();
-			urlArray.push(getMessageUrl(id, message, name));
+			var prefName = $("#input" + id).val();
+			urlArray.push(getMessageUrl(id, message, name, prefName));
 		}
 	});
 
@@ -260,6 +269,7 @@ function send3TestMessages() {
     urlArray.push(url3);
     console.log(urlArray);
 
+
 	var next = function(i) {
 	    var win = window.open(urlArray[i]);
 	    var timer = setInterval(function() {
@@ -279,9 +289,9 @@ function send3TestMessages() {
 
 }
 
-function getMessageUrl(id, message, fullName) {
+function getMessageUrl(id, message, fullName, prefName) {
 	var nameArray = fullName.split(" ");
-	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName};
+	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName, prefName : prefName};
 	message = processMessage(message, mapping);
 	sendUrl = baseFbUrl + id + "?message=" + message;
 	return sendUrl
@@ -330,14 +340,46 @@ function openInNewTab(url) {
 // 	// 	console.log("just entered new yp");
 // 	// }
 // });
-
+var numSendees = 0;
 
 // var elementExists = $("find-me");
-// $('html').on('DOMSubtreeModified', '._58-2.clearfix', function(event) {
-//   // console.log(result);
-//   var result = event.currentTarget;
-//   if (result != undefined && result.childNodes != undefined) result = result.childNodes[0];
-//   if (result != undefined && result.classList != undefined && result.classList.length == 3) result = result.classList[2];
-//   if (result == "_5vn4");
-//   console.log("yes");
-// });
+$('html').on('DOMSubtreeModified', '._58-2.clearfix', function(event) {
+	// console.log(result);
+	if ()
+	if (this != undefined && this.childNodes != undefined) {
+		var nameCount = $(this).children('span').length - 2;
+		if (nameCount == numSendees) return false;
+		else if (nameCount < numSendees) {
+			numSendees = nameCount;
+			return false;
+		}
+		// if the code continues then there has been a name added to the 
+		// number of names in send thing
+		$(this).children("span").each( function() {
+			if ($(this).hasClass("_5vn4")) {
+				// console.log($(this));
+
+				if (! $(this).has("input").length) {
+					unformatted = $(this).attr("data-reactid");
+					var id = unformatted.match(/\d{4,45}/)[0];
+					var name = $(this).text();
+					$(this).append("<input id='prefNameFor" + id + "' type = 'text'></input>");
+					// database lookup here
+					var nameArray = name.split(" ");
+					$("#prefNameFor" + id).val(nameArray[0]);
+				}
+			}
+		});
+		// a change was made, update
+		// this current way to update will fuck up changes made to preferred names
+	}
+});
+
+
+// unformatted = $(this).attr("data-reactid");
+// var id = unformatted.match(/\d{4,45}/)[0];
+// var name = $(this).text();
+
+
+
+
