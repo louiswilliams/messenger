@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Messenger CRM",
     "description": "Facebook Messenger CRM",
     "version": "1.0",
@@ -16,7 +16,8 @@
         }
     ],
     "permissions": [
-        "https://messenger.com/"
+        "https://messenger.com/", 
+        "storage"
     ],
     "browser_action": {
         "default_title": "Messenger CRM"

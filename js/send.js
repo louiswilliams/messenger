@@ -7,7 +7,9 @@ $(document).ready(function() {
 
 function sendMessage(message) {
 	$("textarea").first().val(message); //fill message
-	$("#u_0_s").click(); //send
+	// $("#u_0_10").click(); //send
+
+	$("input[value='Reply']").click();
 	setTimeout(	window.close, 500);
 
 }

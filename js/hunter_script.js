@@ -2,11 +2,38 @@ var status = "null";
 var accessToken = "6b34fe24ac2ff8103f6fce1f0da2ef57";
 var url = "https://messenger.louiswilliams.org/user/" + accessToken;
 var activePipeline;
-
+var lastId;
 
 // commented out code references pipeline process that is being removed now
 // but not permanently
 
+
+function getRandomToken() {
+    // E.g. 8 * 32 = 256 bits token
+    var randomPool = new Uint8Array(32);
+    crypto.getRandomValues(randomPool);
+    var hex = '';
+    for (var i = 0; i < randomPool.length; ++i) {
+        hex += randomPool[i].toString(16);
+    }
+    // E.g. db18458e2782b2b77e36769c569e263a53885a9944dd0a861e5064eac16f1a
+    return hex;
+}
+
+chrome.storage.sync.get('userid', function(items) {
+    var userid = items.userid;
+    if (userid) {
+        useToken(userid);
+    } else {
+        userid = getRandomToken();
+        chrome.storage.sync.set({userid: userid}, function() {
+            useToken(userid);
+        });
+    }
+    function useToken(userid) {
+        console.log("shimmy running for : " + userid);
+    }
+});
 
 
 
@@ -34,6 +61,7 @@ var activePipeline;
 $(document).ready(function() {
 	injectInitialView();
 
+
 	$("._4_j4.clearfix").bind("DOMSubtreeModified", function() {
 	    if (status == "multi") {
 	    	$("._4rv3").css("display", "none");
@@ -46,6 +74,7 @@ $(document).on("click", "._4bl8._4bl7", function() {
 		// this is for reversing from multi
 		status = "single";
 		loadSingleMessageView();
+		removeInputsFromNames();
 	}
 });
 
@@ -81,6 +110,7 @@ function loadMultiMessageView() {
     $("#back_btn").click(function() {
         location.reload();
     });
+    addInputsToNames();
 }
 
 
@@ -214,7 +244,11 @@ $(document).on("click", "#new_message", function() {
 
 $(document).on("click", '#send_message', function() {
 	// send3TestMessages();
+	// var inputName = "#prefNameFor" + lastId;
+	// var prefName = $(inputName).val();
+	// console.log("inputName: " + inputName + " prefName: " + prefName);
 
+	// uncomment next code in production
     if (status = "multi") {
     	var text = $('textarea#multi_message').val();
     }
@@ -232,7 +266,7 @@ function grabContactsAndSend(message) {
 			unformatted = $(this).attr("data-reactid");
 			var id = unformatted.match(/\d{4,45}/)[0];
 			var name = $(this).text();
-			var prefName = $("#input" + id).val();
+			var prefName = $("#prefNameFor" + id).val();
 			urlArray.push(getMessageUrl(id, message, name, prefName));
 		}
 	});
@@ -345,7 +379,7 @@ var numSendees = 0;
 // var elementExists = $("find-me");
 $('html').on('DOMSubtreeModified', '._58-2.clearfix', function(event) {
 	// console.log(result);
-	if ()
+	if (status != "multi") return false;
 	if (this != undefined && this.childNodes != undefined) {
 		var nameCount = $(this).children('span').length - 2;
 		if (nameCount == numSendees) return false;
@@ -355,26 +389,44 @@ $('html').on('DOMSubtreeModified', '._58-2.clearfix', function(event) {
 		}
 		// if the code continues then there has been a name added to the 
 		// number of names in send thing
-		$(this).children("span").each( function() {
-			if ($(this).hasClass("_5vn4")) {
-				// console.log($(this));
-
-				if (! $(this).has("input").length) {
-					unformatted = $(this).attr("data-reactid");
-					var id = unformatted.match(/\d{4,45}/)[0];
-					var name = $(this).text();
-					$(this).append("<input id='prefNameFor" + id + "' type = 'text'></input>");
-					// database lookup here
-					var nameArray = name.split(" ");
-					$("#prefNameFor" + id).val(nameArray[0]);
-				}
-			}
-		});
+		addInputsToNames();
 		// a change was made, update
 		// this current way to update will fuck up changes made to preferred names
 	}
 });
 
+function addInputsToNames() {
+	// iterating names in headers
+	$("._58-2.clearfix").children("span").each( function() {
+		if ($(this).hasClass("_5vn4")) {
+			// console.log($(this));
+
+			if (! $(this).has("input").length) {
+				unformatted = $(this).attr("data-reactid");
+				var id = unformatted.match(/\d{4,45}/)[0];
+				var name = $(this).text();
+				var htmlForInput = '<input id="prefNameFor' + id + '" aria-autocomplete="list" aria-owns="js_w" role="combobox" placeholder="" autocomplete="off" autocorrect="off" value="" type="text" class="_14-9._58al" data-reactid=".0.1" style="width: 70px;color: #2F2F2F;   font-size: 14px;border: 0;background: transparent;">';
+				$(this).append(htmlForInput);
+
+				// database lookup here
+				var nameArray = name.split(" ");
+				$("#prefNameFor" + id).val(nameArray[0]);
+				lastId = id;
+			}
+		}
+	});
+}
+
+function removeInputsFromNames() {
+	$("._58-2.clearfix").children("span").each( function() {
+		if ($(this).hasClass("_5vn4")) {
+			// console.log($(this));
+			if ($(this).has("input").length) {
+				$(this).children("input").remove();
+			}
+		}
+	});
+}
 
 // unformatted = $(this).attr("data-reactid");
 // var id = unformatted.match(/\d{4,45}/)[0];
