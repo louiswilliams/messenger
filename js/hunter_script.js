@@ -91,7 +91,7 @@ function loadSingleMessageView() {
 
 function loadMultiMessageView() {
     // below is the style of the last two buttons
-    $("._4_j4.clearfix").children("._4bl9").append("<div id='multi_message_text_holder' style='bottom: 25; width: 100%;'><textarea id='multi_message' style='width: 100%; height: 140px; bottom: 5em; position: absolute; font-size: 14px; padding-left: 12px; padding-top: 24px; padding-bottom: 24px;' placeholder='Type your group message here...'></textarea></div>"); $("#multi_message").css("font-family", "Helvetica Neue");
+    $("._4_j4.clearfix").children("._4bl9").append("<div id='multi_message_text_holder' style='bottom: 25; width: 100%;'><textarea id='multi_message' style='width: 100%; height: 140px; bottom: 5em; position: absolute; font-size: 14px; padding-left: 12px; padding-top: 24px; padding-bottom: 24px;' placeholder='Type your group message here...  You can include the following lookups {{nickName}}, {{firstName}}, {{lastName}}, {{fullName}}'></textarea></div>"); $("#multi_message").css("font-family", "Helvetica Neue");
     $("._4_j4.clearfix").children("._4bl9").append("<a id='send_message'><div style='bottom: 0; height: 25px; position: fixed; border-radius: 22px; color: #ffffff; background: rgb(8, 136, 255); padding: 13px 15px 6px 15px; text-decoration: none; bottom: 13px; margin-left: 13px;}'>Ship It</div></a>"); $("._4rv3").css("display", "none"); $("._4_j4.clearfix").css("background","rgb(235, 246, 255)"); //$("._4bl9").replaceWith("<div id='tricks' stlye='background-color:red;'>Hello</div>");
     $("._2y8z._4bl7").html("<span id='back_btn' style='border-radius: 44px; color: rgb(8, 136, 255); font-size: 14px;   padding: 5px 10px 4px 10px; margin-right: 1em; border: solid rgb(8, 136, 255) 2px; text-decoration: none;'>Cancel</span>" + "To:");
     $("#back_btn").hover(
@@ -267,7 +267,7 @@ function grabContactsAndSend(message) {
 			// console.log($(this));
 			unformatted = $(this).attr("data-reactid");
 			var id = unformatted.match(/\d{4,45}/)[0];
-			var name = $(this).text();
+			var name = $(this).children().not('[id="helper"]').text();
 			var prefName = $("#prefNameFor" + id).val();
 			urlArray.push(getMessageUrl(id, message, name, prefName));
 			updatedPrefNames.push({ "userId" : myUserId,
@@ -364,7 +364,9 @@ function send3TestMessages() {
 
 function getMessageUrl(id, message, fullName, prefName) {
 	var nameArray = fullName.split(" ");
-	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName, nickName : prefName};
+	console.log("fullName: " + fullName);
+	console.log("prefName: " + prefName);
+	var mapping = {firstName: nameArray[0], lastName: nameArray[nameArray.length - 1], fullName: fullName, nickName: prefName};
 	message = processMessage(message, mapping);
 	sendUrl = baseFbUrl + id + "?message=" + message;
 	return sendUrl
@@ -386,6 +388,8 @@ function processMessage(message, mapping) {
     	var attrName = key;
         var attrValue = mapping[key];
         var attrName = "{{" + attrName + "}}";
+        // console.log("attrName: " + attrName + " val: " + attrValue);
+        // console.log("message: " + message);
         message = message.replace(attrName, attrValue);
     }
     return message;
@@ -444,7 +448,7 @@ function addInputsToNames() {
 				unformatted = $(this).attr("data-reactid");
 				var id = unformatted.match(/\d{4,45}/)[0];
 				var name = $(this).text();
-				var htmlForInput = '<span class="_14-9" style="color: #2F2F2F;"> {{nickName}}: </span><input id="prefNameFor' + id + '" aria-autocomplete="list" aria-owns="js_w" role="combobox" placeholder="" autocomplete="off" autocorrect="off" value="" type="text" class="_14-9._58al" data-reactid=".0.1" style="width: 70px;color: #2F2F2F;   font-size: 14px;border: 0;background: transparent;">';
+				var htmlForInput = '<span id="helper" class="_14-9" style="color: #2F2F2F;"> {{nickName}}: </span><input id="prefNameFor' + id + '" aria-autocomplete="list" aria-owns="js_w" role="combobox" placeholder="" autocomplete="off" autocorrect="off" value="" type="text" class="_14-9._58al" data-reactid=".0.1" style="width: 70px;color: #2F2F2F;   font-size: 14px;border: 0;background: transparent;">';
 				$(this).append(htmlForInput);
 
 				// database lookup here
