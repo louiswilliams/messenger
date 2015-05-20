@@ -10,6 +10,7 @@ function sendMessage(message) {
 	// $("#u_0_10").click(); //send
 
 	$("input[value='Reply']").click();
+	$("input[value='Send']").click();
 	setTimeout(	window.close, 500);
 
 }

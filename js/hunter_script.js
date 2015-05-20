@@ -3,7 +3,7 @@ var accessToken = "6b34fe24ac2ff8103f6fce1f0da2ef57";
 var url = "https://messenger.louiswilliams.org/user/" + accessToken;
 var activePipeline;
 var lastId;
-
+var myUserId;
 // commented out code references pipeline process that is being removed now
 // but not permanently
 
@@ -32,6 +32,7 @@ chrome.storage.sync.get('userid', function(items) {
     }
     function useToken(userid) {
         console.log("shimmy running for : " + userid);
+        myUserId = userid;
     }
 });
 
@@ -260,16 +261,54 @@ $(document).on("click", '#send_message', function() {
 function grabContactsAndSend(message) {
 	// var message = $("._54-z").children(0).children(0).children(0).children(0).text();
 	var urlArray = [];
+	var updatedPrefNames = [];
 	$("._58-2.clearfix").children("span").each( function() {
 		if ($(this).hasClass("_5vn4")) {
-			console.log($(this));
+			// console.log($(this));
 			unformatted = $(this).attr("data-reactid");
 			var id = unformatted.match(/\d{4,45}/)[0];
 			var name = $(this).text();
 			var prefName = $("#prefNameFor" + id).val();
 			urlArray.push(getMessageUrl(id, message, name, prefName));
+			updatedPrefNames.push({ "userId" : myUserId,
+										  "nameId" : id,
+										  "preferredName" : prefName});
 		}
 	});
+
+
+	// $.post("http://localhost:3003/names/find", {names : JSON.stringify(updatedPrefNames)}, function() {
+	// 	console.log("sent");
+	// })
+	// .done(function(data) {
+ //    	console.log("recieved results : " + data);
+	// })
+	// .fail(function() {
+	//     alert( "error" );
+	// });
+
+	for (key in updatedPrefNames) {
+		var updateInfo = updatedPrefNames[key];
+
+        chrome.storage.sync.get(updateInfo.nameId, function(items) {
+        	newKeyValuePair = {};
+        	newKeyValuePair[updateInfo.nameId] = updateInfo.preferredName;
+        	console.log(newKeyValuePair);
+	        chrome.storage.sync.set(newKeyValuePair, function() {
+	            console.log("maybe adding ");
+	        });
+		});
+   	}
+
+
+	// console.log(JSON.stringify(updatedPrefNames));
+	// chrome.runtime.sendMessage({
+	//     method: 'POST',
+	//     url: 'http://localhost:3003/names/set',
+	//     data: JSON.stringify(updatedPrefNames)
+	// }, function(response) {
+	// 	console.log(response);
+	// });
 
 	var next = function(i) {
 	    var win = window.open(urlArray[i]);
@@ -285,7 +324,7 @@ function grabContactsAndSend(message) {
 	        }
 	    }, 500);    		
 	}
-
+	
 	next(0);
 
 
@@ -325,7 +364,7 @@ function send3TestMessages() {
 
 function getMessageUrl(id, message, fullName, prefName) {
 	var nameArray = fullName.split(" ");
-	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName, prefName : prefName};
+	var mapping = {firstName : nameArray[0], lastName : nameArray[nameArray.length - 1], fullName : fullName, nickName : prefName};
 	message = processMessage(message, mapping);
 	sendUrl = baseFbUrl + id + "?message=" + message;
 	return sendUrl
@@ -405,13 +444,57 @@ function addInputsToNames() {
 				unformatted = $(this).attr("data-reactid");
 				var id = unformatted.match(/\d{4,45}/)[0];
 				var name = $(this).text();
-				var htmlForInput = '<input id="prefNameFor' + id + '" aria-autocomplete="list" aria-owns="js_w" role="combobox" placeholder="" autocomplete="off" autocorrect="off" value="" type="text" class="_14-9._58al" data-reactid=".0.1" style="width: 70px;color: #2F2F2F;   font-size: 14px;border: 0;background: transparent;">';
+				var htmlForInput = '<span class="_14-9" style="color: #2F2F2F;"> {{nickName}}: </span><input id="prefNameFor' + id + '" aria-autocomplete="list" aria-owns="js_w" role="combobox" placeholder="" autocomplete="off" autocorrect="off" value="" type="text" class="_14-9._58al" data-reactid=".0.1" style="width: 70px;color: #2F2F2F;   font-size: 14px;border: 0;background: transparent;">';
 				$(this).append(htmlForInput);
 
 				// database lookup here
-				var nameArray = name.split(" ");
-				$("#prefNameFor" + id).val(nameArray[0]);
-				lastId = id;
+
+				// $.post("http://localhost:3003/names/find", {userId : myUserId, nameId : id}, function() {
+				// 	console.log("sent");
+				// })
+				// .done(function(data) {
+			 //    	console.log("recieved results : " + data);
+				// })
+				// .fail(function() {
+				//     alert( "error" );
+				// });
+
+				console.log("checking for " + id);
+				chrome.storage.sync.get(id, function(items) {
+				    var nickName = items[id];
+				    console.log(nickName);
+				    if (nickName && nickName !== undefined) {
+				        $("#prefNameFor" + id).val(nickName);
+				    } else {
+				        var nameArray = name.split(" ");
+						$("#prefNameFor" + id).val(nameArray[0]);
+				    }
+				});
+
+				// chrome.runtime.sendMessage({
+				//     method: 'POST',
+				//     action: 'xhttp',
+				//     url: 'http://localhost:3003/names/find',
+				//     data: JSON.stringify({'userId' : myUserId, 'nameId' : id})
+				// }, function(response) {
+				// 	if (response.preferredName) {
+				// 		$("#prefNameFor" + id).val(response.preferredName);
+				// 	} else {
+						
+				// 	}
+				// 	lastId = id;
+				// });
+				// chrome.runtime.sendMessage({
+				//     method: 'POST',
+				//     url: 'http://localhost:3003/names/find',
+				//     data: {'userId' : myUserId, 'nameId' : id}
+				// }, function(responseText) {
+				//     console.log(responseText);
+				// });
+
+
+
+				
 			}
 		}
 	});
@@ -427,11 +510,5 @@ function removeInputsFromNames() {
 		}
 	});
 }
-
-// unformatted = $(this).attr("data-reactid");
-// var id = unformatted.match(/\d{4,45}/)[0];
-// var name = $(this).text();
-
-
-
+ 
 
